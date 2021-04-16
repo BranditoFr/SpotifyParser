@@ -1,1 +1,5 @@
 /ParserSpotify/target/
+/.bsp/
+/.idea/
+/project/
+/target/
