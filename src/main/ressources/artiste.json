@@ -1,0 +1,81 @@
+{
+  "artists": [
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/58wXmynHaAWI5hwlPZP3qL"
+      },
+      "followers": {
+        "href": null,
+        "total": 2013713
+      },
+      "genres": [
+        "french hip hop",
+        "old school rap francais",
+        "pop urbaine",
+        "rap conscient"
+      ],
+      "href": "https://api.spotify.com/v1/artists/58wXmynHaAWI5hwlPZP3qL",
+      "id": "58wXmynHaAWI5hwlPZP3qL",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/97eac2fc89a7b7307dd016620f05611906699256",
+          "width": 640
+        },
+        {
+          "height": 320,
+          "url": "https://i.scdn.co/image/8b8f16c931b5dcea9caeb5b98ec42063dbf0c4a4",
+          "width": 320
+        },
+        {
+          "height": 160,
+          "url": "https://i.scdn.co/image/54ff4f5a5813f858e0711301c500a43693c12c2f",
+          "width": 160
+        }
+      ],
+      "name": "Booba",
+      "popularity": 80,
+      "type": "artist",
+      "uri": "spotify:artist:58wXmynHaAWI5hwlPZP3qL"
+    },
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/1ntQKIMIgESKpKoNXVBvQg"
+      },
+      "followers": {
+        "href": null,
+        "total": 1291212
+      },
+      "genres": [
+        "drill francais",
+        "francoton",
+        "french hip hop",
+        "pop urbaine",
+        "rap francais"
+      ],
+      "href": "https://api.spotify.com/v1/artists/1ntQKIMIgESKpKoNXVBvQg",
+      "id": "1ntQKIMIgESKpKoNXVBvQg",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/2bd35a7f668fd1da2ba9bb3e5d35422bed2f5cdf",
+          "width": 640
+        },
+        {
+          "height": 320,
+          "url": "https://i.scdn.co/image/3bcc5fb1fb09b42b0f498a97151bd90d50fd4cf7",
+          "width": 320
+        },
+        {
+          "height": 160,
+          "url": "https://i.scdn.co/image/8170d49d594ba58a19811bbcda5450cd2681be55",
+          "width": 160
+        }
+      ],
+      "name": "Kaaris",
+      "popularity": 71,
+      "type": "artist",
+      "uri": "spotify:artist:1ntQKIMIgESKpKoNXVBvQg"
+    }
+  ]
+}
