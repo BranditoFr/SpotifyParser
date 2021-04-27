@@ -1,12 +1,15 @@
 package Parser
 
 import com.typesafe.config.{Config, ConfigFactory}
-import model.input.ArtisteIn
 import ujson.Value.Value
+import ParserUtilities._
 
 import scala.io.Source
 
+
 object Parser {
+  val mToken: String = getToken
+
   def main(args: Array[String]): Unit = {
     val lConf: Config = ConfigFactory.load("parser.conf")
     val lArtistePath: String = lConf.getString("artist")
@@ -18,8 +21,7 @@ object Parser {
 
     println(List(lArtistJson("artists")))
 
+    println(lArtistJson("artists")(0))
     println(lArtistJson("artists")(0)("name"))
-
-
   }
 }
