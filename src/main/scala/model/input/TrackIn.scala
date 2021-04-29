@@ -1,6 +1,6 @@
 package model.input
 
-case class TracksIn(
+case class TrackIn(
                    mName: String,
                    mReleaseDate: String,
                    mPopularity: Int,

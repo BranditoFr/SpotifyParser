@@ -1,10 +1,10 @@
 package utils.converters
 
-import model.input.TracksIn
-import model.output.TracksOut
+import model.input.TrackIn
+import model.output.TrackOut
 
-object TrackConverter extends Converter[TracksIn, TracksOut] {
-  override def convert(iInput: TracksIn): TracksOut = {
+object TrackConverter extends Converter[TrackIn, TrackOut] {
+  override def convert(iInput: TrackIn): TrackOut = {
     ???
   }
 }

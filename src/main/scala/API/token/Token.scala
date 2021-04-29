@@ -1,8 +1,8 @@
-package Parser
+package API.token
 
 import scalaj.http.{Http, HttpResponse}
 
-object ParserUtilities {
+object Token {
   def getToken: String = {
     val lClientEncoded: String = "Mjc5NmNkZmRlYTNjNDQ0NGJhNzczZTM2MTM3ZmI4MDA6ZjM5MDM2ZGJkNTBjNDE1OWJiMDNhMDExMDE3MmM1MDQ"
     val lResponse: HttpResponse[String] =
@@ -11,6 +11,6 @@ object ParserUtilities {
         .header("Authorization", "Basic " + lClientEncoded)
         .asString
 
-    ujson.read(lResponse.body)("access_token").render()
+    ujson.read(lResponse.body)("access_token").render().replaceAll("\"","")
   }
 }
