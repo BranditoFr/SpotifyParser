@@ -38,11 +38,12 @@ object Parser {
 
     val lAlbumsIn: List[AlbumIn] = {
       lArtistsIn.foldLeft(List[AlbumIn]())((lAcc, lArtist) => {
-        val lAlbumsJson: Value = ujson.read(ArtistEndpoints.getArtistAlbums(lArtist.mId))
+        val lAlbumsList: List[Value] =
+          ujson
+          .read(ArtistEndpoints.getArtistAlbums(lArtist.mId))("items")
+          .arr.toList
 
-        val lAlbumsList: List[Value] = lAlbumsJson("items").arr.toList
-
-        val lAlbumsPerArtist: List[AlbumIn] =
+        lAcc ++
           lAlbumsList.foldLeft(List[AlbumIn]())((lAccAlbum, lAlbum) => {
             lAccAlbum :+
               AlbumIn(
@@ -50,12 +51,10 @@ object Parser {
                 lAlbum("name").str,
                 lAlbum("release_date").str,
                 lArtist.mId,
-                lAlbum("total_tracks").str.toInt,
+                lAlbum("total_tracks").num.toInt,
                 List("")
               )
           })
-
-        lAcc ++ lAlbumsPerArtist
       })
     }
 
