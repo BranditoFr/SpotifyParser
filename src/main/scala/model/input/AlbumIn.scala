@@ -1,9 +1,10 @@
 package model.input
 
 case class AlbumIn(
+                  mId: String,
                   mName: String,
                   mReleaseDate: String,
-                  mPopularity: Int,
                   mArtisteId: String,
+                  mTotalTracks: Int,
                   mTracksId: List[String]
                   )

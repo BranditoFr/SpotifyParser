@@ -6,7 +6,9 @@ import com.typesafe.config.{Config, ConfigFactory}
 import model.input.{AlbumIn, ArtistIn}
 import ujson.{StringRenderer, Value}
 
+import scala.util.control.Breaks.{break, _}
 import java.io.IOException
+import scala.collection.mutable.ArrayBuffer
 
 
 
@@ -32,21 +34,31 @@ object Parser {
           )
     })
     println(lArtistsIn)
-//
-//    val lAlbumsIn: List[AlbumIn] =
-//      lArtistsIn.foldLeft(List[AlbumIn]())((lAcc, lArtist) => {
-//        val lAlbumsJson: Value = ujson.read(ArtistEndpoints.getArtistAlbums(lArtist.mId))
-//        println(lAlbumsJson)
-//        while(true){
-//          try {
-//            val lName = lAlbumsJson("items")(0)("name")
-//          }catch{
-//            case e: IOException => println("Had an IOException trying to read that file")
-//          }
-//        }
-//        lAcc :+
-//          AlbumIn("a","a",1,"a",List("a"))
-//      })
-//    println(lAlbumsIn)
+
+
+    val lAlbumsIn: List[AlbumIn] = {
+      lArtistsIn.foldLeft(List[AlbumIn]())((lAcc, lArtist) => {
+        val lAlbumsJson: Value = ujson.read(ArtistEndpoints.getArtistAlbums(lArtist.mId))
+
+        val lAlbumsList: List[Value] = lAlbumsJson("items").arr.toList
+
+        val lAlbumsPerArtist: List[AlbumIn] =
+          lAlbumsList.foldLeft(List[AlbumIn]())((lAccAlbum, lAlbum) => {
+            lAccAlbum :+
+              AlbumIn(
+                lAlbum("id").str,
+                lAlbum("name").str,
+                lAlbum("release_date").str,
+                lArtist.mId,
+                lAlbum("total_tracks").str.toInt,
+                List("")
+              )
+          })
+
+        lAcc ++ lAlbumsPerArtist
+      })
+    }
+
+    println(lAlbumsIn)
   }
 }
