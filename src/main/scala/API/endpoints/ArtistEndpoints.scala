@@ -1,7 +1,5 @@
 package API.endpoints
 
-import scalaj.http.HttpRequest
-
 object ArtistEndpoints extends SpotifyEndpoints {
   private val artistEndpoint = baseAPIUrl + "/v1/artists/"
 

@@ -1,63 +1,70 @@
 package parser
 
-import API.endpoints.{AlbumEndpoints, ArtistEndpoints}
+import API.endpoints.{AlbumEndpoints, ArtistEndpoints, BrowseEndpoints}
 import API.token.Token._
 import com.typesafe.config.{Config, ConfigFactory}
-import model.input.{AlbumIn, ArtistIn}
-import ujson.{StringRenderer, Value}
-
-import scala.util.control.Breaks.{break, _}
-import java.io.IOException
-import scala.collection.mutable.ArrayBuffer
-
+import model.input.AlbumIn
+import model.output.{AlbumOut, ArtistOut}
+import ujson.Value
+import utils.StaticStrings._
+import utils.converters._
 
 
 object Parser {
   val mToken: String = getToken
 
   def main(args: Array[String]): Unit = {
+    /**  CONF **/
     val lConf: Config = ConfigFactory.load("parser.conf")
+    val lArtistsList: List[String] = lConf.getString("list.artists").split(",").toList
 
-    val lArtistsList: List[String] = List("58wXmynHaAWI5hwlPZP3qL", "1ntQKIMIgESKpKoNXVBvQg")
-    val NbArtist = lArtistsList.length
+    /**  GET ARTISTS **/
+    val lArtistJson: List[Value] =
+      ujson
+        .read(ArtistEndpoints.getArtists(lArtistsList))(sArtists)
+        .arr
+        .toList
 
-    val lArtistJson: Value = ujson.read(ArtistEndpoints.getArtists(lArtistsList))
-
-    val lArtistsIn: List[ArtistIn] =
-      (0 until NbArtist).foldLeft(List[ArtistIn]())((lAcc, i) => {
+    val ArtistsOut: List[ArtistOut] =
+      lArtistJson.foldLeft(List[ArtistOut]())((lAcc, lArtist) => {
         lAcc :+
-          ArtistIn(
-            mId = lArtistJson("artists")(i)("id").str,
-            mName = lArtistJson("artists")(i)("name").str,
-            mNbFollowers = lArtistJson("artists")(i)("followers")("total").toString().toInt,
-            mPopularity =  lArtistJson("artists")(i)("popularity").toString().toInt
-          )
-    })
-    println(lArtistsIn)
+          ArtistConverter.convert(lArtist)
+      })
 
+    println("ArtistsIn \n" + ArtistsOut)
 
-    val lAlbumsIn: List[AlbumIn] = {
-      lArtistsIn.foldLeft(List[AlbumIn]())((lAcc, lArtist) => {
+    /**  GET ALL ALBUMS FOR ARTISTS **/
+    val lAlbumsIn: List[AlbumOut] = {
+      ArtistsOut.foldLeft(List[AlbumOut]())((lAcc, lArtist) => {
         val lAlbumsList: List[Value] =
           ujson
-          .read(ArtistEndpoints.getArtistAlbums(lArtist.mId))("items")
-          .arr.toList
+            .read(ArtistEndpoints.getArtistAlbums(lArtist.mId))(sItems)
+            .arr
+            .toList
 
         lAcc ++
-          lAlbumsList.foldLeft(List[AlbumIn]())((lAccAlbum, lAlbum) => {
+          lAlbumsList.foldLeft(List[AlbumOut]())((lAccAlbum, lAlbum) => {
             lAccAlbum :+
-              AlbumIn(
-                lAlbum("id").str,
-                lAlbum("name").str,
-                lAlbum("release_date").str,
-                lArtist.mId,
-                lAlbum("total_tracks").num.toInt,
-                List("")
-              )
+              AlbumConverter.convert(lAlbum)
           })
       })
     }
+    println("lAlbumsIn \n" + lAlbumsIn)
 
-    println(lAlbumsIn)
+    /**  NEW RELEASE **/
+    val lNewReleaseJson: List[Value] =
+      ujson
+        .read(BrowseEndpoints.getNewRelease("FR", 30))(sAlbums)(sItems)
+        .arr
+        .toList
+
+    val lNewReleaseAlbums: List[AlbumOut] = {
+      lNewReleaseJson.foldLeft(List[AlbumOut]())((lAcc, lAlbum) => {
+        lAcc :+
+          AlbumConverter.convert(lAlbum)
+      })
+    }
+    println(lNewReleaseAlbums)
+
   }
 }

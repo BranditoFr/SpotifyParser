@@ -1,7 +1,7 @@
 package API.endpoints
 
-import scalaj.http.{Http, HttpRequest, HttpResponse}
 import parser.Parser.mToken
+import scalaj.http.Http
 abstract class SpotifyEndpoints {
 
   protected val baseAPIUrl = "https://api.spotify.com"
