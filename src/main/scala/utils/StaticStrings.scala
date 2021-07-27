@@ -12,4 +12,9 @@ object StaticStrings {
   val sReleaseDate = "release_date"
   val sTotalTracks = "total_tracks"
   val sTracks = "tracks"
+
+  val sAlbum = "album"
+  val sArtist = "artist"
+  val sTrack = "track"
+
 }

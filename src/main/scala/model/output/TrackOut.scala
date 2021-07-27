@@ -1,8 +1,7 @@
 package model.output
 
 case class TrackOut(
+                     mId: String,
                      mName: String,
-//                     mReleaseDate: String,
-//                     mPopularity: Int,
-                     mArtistId: String
+                     mArtist: String
                    )
